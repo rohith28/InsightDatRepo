@@ -3,7 +3,7 @@
 var express = require('express');
 var app = express();
 
-var populationRouter = require('./src/routes/populationRoutes');
+var moviesRouter = require('./src/routes/moviesRouter');
 
 var port = process.env.PORT || 5000;
 
@@ -19,11 +19,11 @@ app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
 
-app.use('/population', populationRouter.getPopulations());
+app.use('/moviesDetails', moviesRouter.getMoviesDetails());
 
 app.get('/', function (req, res) {
     res.render('index', {
-        title: 'Population Chart'
+        title: 'Movies Genres Chart'
     });
 });
 
