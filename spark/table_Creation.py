@@ -13,8 +13,8 @@ class movies():
     # Initialize
     def __init__(self,clusterURL = "local",appName = "AUTH"):
         
-        self.userName = "mydb"
-        self.password = "9542582841"
+        self.userName = os.environ["user"]
+        self.password = os.environ["pwd"]
         
         # Debug statement
         print("Initialized")
