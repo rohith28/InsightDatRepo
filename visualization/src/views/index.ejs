@@ -82,7 +82,7 @@ var line = d3.line()
     .y(function(d) { return y(d.profit); });
 var color = d3.scale.category10();
 
-var url = 'http://localhost:5000/moviesDetails'
+var url = 'http://movietrends-env.ihde3ha3pe.us-east-1.elasticbeanstalk.com/moviesDetails'
 d3.json(url, function(error, data) {
   if (error) throw error;
 

@@ -5,16 +5,16 @@ mysql = require('mysql');
 
 var connection = mysql.createConnection({
  connectionLimit : 1, //important 
- host :'mysqlinstance.cjm8qag6rwgx.us-east-1.rds.amazonaws.com',
+ /*host :'mysqlinstance.cjm8qag6rwgx.us-east-1.rds.amazonaws.com',
  port : '3306',
  user: 'mydb',
  password : '9542582841',
- database : 'moviebuff'
- //host     : process.env.RDS_HOSTNAME,
- //user     : process.env.RDS_USERNAME,
- //password : process.env.RDS_PASSWORD,
- //port     : process.env.RDS_PORT,
- //database : process.env.RDS_DB_NAME
+ database : 'moviebuff'*/
+ host     : process.env.RDS_HOSTNAME,
+ user     : process.env.RDS_USERNAME,
+ password : process.env.RDS_PASSWORD,
+ port     : process.env.RDS_PORT,
+ database : process.env.RDS_DB_NAME
 });
 
 connection.connect(function(err) {
