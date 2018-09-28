@@ -52,7 +52,7 @@ class movies():
             
             
             # Actor tables created
-            actorQuery = "CREATE TABLE actors (actorId INT AUTO_INCREMENT PRIMARY KEY, movie_id int NOT NULL, actorName VARCHAR(255),characterName VARCHAR(255), FOREIGN KEY(movie_id) REFERENCES movies(movie_id));"
+            actorQuery = "CREATE TABLE actors (actorId INT AUTO_INCREMENT PRIMARY KEY, movie_id int NOT NULL, actorName VARCHAR(255),characterName VARCHAR(255), gender INT, FOREIGN KEY(movie_id) REFERENCES movies(movie_id));"
             curObj.execute(actorQuery)
             print("Actors table created")
             
