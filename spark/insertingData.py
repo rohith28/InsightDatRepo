@@ -15,10 +15,10 @@ class dataProcessing():
     # Initialize
     def __init__(self,clusterURL = "local",appName = "AUTH"):
         
-        self.userName = "mydb"
-        self.password = "9542582841"
-        self.ACCESS_KEY_ID = 'AKIAI2ABN7WW4ZU2OI6A'
-        self.ACCESS_SECRET_KEY = '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'
+        self.userName = os.environ["user"]
+        self.password = os.emviron["pwd"]
+        self.ACCESS_KEY_ID = os.environ["ACCESS_KEY_ID"]
+        self.ACCESS_SECRET_KEY = os.environ["ACCESS_SECRET_KEY"]
         self.BUCKET_NAME = 'moviedatasetinsight'
         self.srcFileName = 'tmdb_5000_movies.csv'
         self.region = 'us-east-1'
