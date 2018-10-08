@@ -9,10 +9,10 @@ Created on Tue Sep 25 16:50:19 2018
 import pymysql
 import time
 import sys
-from DatabaseConnector import DatabaseConnector
+from connectorHelper import connectorHelper
 
 
-class movies():
+class tableCreator():
 
     def create_cursor(self, conn):
         cur = conn.cursor()
@@ -21,47 +21,94 @@ class movies():
 
     def create_tables(self):
 
-        dbconnector = DatabaseConnector()
+        dbconnector = connectorHelper()
         connection = dbconnector.get_connection()
         curObj = connection.cursor()
         cnt =0
         print("Creating Tables ")
         start_time = time.time()
         try:
-            # Movies table created
-            sqlQuery = "CREATE TABLE IF NOT EXISTS movies (movie_id INT AUTO_INCREMENT PRIMARY KEY, " \
-                       "movie_name VARCHAR(255)  NOT NULL, runtime INT,budget INT, revenue BIGINT, language VARCHAR(255), " \
-                       "popularity FLOAT,releasedate DATE, votes INT, voteAvg INT)";
+
+            dropQuery = "DROP TABLE IF EXISTS movies"
+            curObj.execute(dropQuery)
+            
+            # Movies table creation
+            sqlQuery = """ CREATE TABLE movies(
+                movie_id INT PRIMARY KEY,
+                movie_name text,
+                runtime INT,
+                budget INT,
+                revenue BIGINT,
+                language text,
+                popularity NUMERIC(5,2),
+                releasedate DATE,
+                votes INT,
+                voteAvg INT   
+                )"""
+            
             curObj.execute(sqlQuery)
             print("Movies table created")
 
-            # Actor tables created
-            actorQuery = "CREATE TABLE actors (actorId INT AUTO_INCREMENT PRIMARY KEY, " \
-                         "movie_id int NOT NULL, actorName VARCHAR(255),characterName VARCHAR(255), " \
-                         "gender INT, FOREIGN KEY(movie_id) REFERENCES movies(movie_id));"
+            # Actor table actor movie relational table
+            actorQuery = """ CREATE TABLE actors(actorId INT PRIMARY KEY,
+                    actorName text,
+                    gender INT
+            )
+            """
             curObj.execute(actorQuery)
-            print("Actors table created")
 
-            # Generes tables created
-            genresQuery = "CREATE TABLE genres (genreid INT AUTO_INCREMENT PRIMARY KEY, " \
-                          "movie_id int NOT NULL, genreName VARCHAR(255), FOREIGN KEY(movie_id) " \
-                          "REFERENCES movies(movie_id));"
+            actorMovieQuery = """CREATE TABLE actor_movie(
+                actor_id INT REFERENCES actors(actorID),
+                movie_id INT REFERENCES movies(movie_id),
+                characterName text )
+                """
+            curObj.execute(actorMovieQuery)
+            
+            # Genres table created
+            genresQuery = """
+            CREATE TABLE genres(
+                genres_id INT,
+                genres_name text
+            )
+            """
             curObj.execute(genresQuery)
-            print("Genres table created")
 
-            # Crew tables created
-            crewQuery = "CREATE TABLE crew (crewId INT AUTO_INCREMENT PRIMARY KEY, " \
-                        "movie_id int NOT NULL, crewName VARCHAR(255),dept VARCHAR(255), " \
-                        "FOREIGN KEY(movie_id) REFERENCES movies(movie_id));"
+            # Genres movie relational table
+            genresMovieQuery = """CREATE TABLE genres(
+                genres_id INT REFERENCES genres(genres_name),
+                movie_id INT REFERENCES movies(movie_id),
+                )
+                """
+            curObj.execute(genresMovieQuery)
+
+            # Crew table and  crew movie relational table
+            crewQuery = """ CREATE TABLE crew(crewId INT PRIMARY KEY,
+                    crewName text,
+                    gender INT
+            )
+            """
             curObj.execute(crewQuery)
-            print("Crew table created")
 
-            # Production tables created
-            productionQuery = "CREATE TABLE production (pId INT AUTO_INCREMENT PRIMARY KEY, " \
-                              "movie_id int NOT NULL, pName VARCHAR(255), " \
-                              "FOREIGN KEY(movie_id) REFERENCES movies(movie_id));"
-            curObj.execute(productionQuery)
-            print("Production table created")
+            crewMovieQuery = """CREATE TABLE crew_movie(
+                crew_id INT REFERENCES crew(crewID),
+                movie_id INT REFERENCES movies(movie_id),
+                dept text )
+                """
+            curObj.execute(crewMovieQuery)
+
+            # Production table and  Production movie relational table
+            prodQuery = """ CREATE TABLE production(pId INT PRIMARY KEY,
+                    pName text
+            )
+            """
+            curObj.execute(prodQuery)
+
+            prodMovieQuery = """CREATE TABLE prod_movie(
+                pId INT REFERENCES production(pId),
+                movie_id INT REFERENCES movies(movie_id),
+                )
+                """
+            curObj.execute(prodMovieQuery)
 
         except pymysql.err.ProgrammingError as err:
             print(err)
@@ -76,5 +123,6 @@ class movies():
 
 
 if __name__ == "__main__":
-    movieInstance = movies()
-    movieInstance.create_tables()
+    tbCreatorIns = tableCreator()
+    tbCreatorIns.create_tables()
+    
