@@ -3,7 +3,10 @@
 var express = require('express');
 var app = express();
 
-var moviesRouter = require('./src/routes/moviesRouter');
+var genresRouter = require('./src/routes/genresRouter');
+var profitRouter = require('./src/routes/profitRouter');
+var productionRoute = require('./src/routes/productionRoute');
+
 
 var port = process.env.PORT || 5000;
 
@@ -18,21 +21,22 @@ app.use(express.static('./src'));
 app.set('views', './src/views');      
 app.set('view engine', 'ejs');
 
-
-app.use('/moviesDetails', moviesRouter.getMoviesDetails());
+app.use('/genres', genresRouter.getGenres());
+app.use('/prod', productionRoute.getProduction())
+app.use('/profit', profitRouter.getProfits());
 
 app.get('/', function (req, res) {
     res.render('index', {
-        title: 'Movies Genres Chart'
+        title: 'Population Chart'
     });
 });
 
-app.get('/wallstreet', function (req, res) {
+/*app.get('/wallstreet', function (req, res) {
     res.render('wallstreet', {
         title: 'Wall Street'
     });
 });
-
+*/
 app.listen(port, function () {
     console.log('running server on port ' + port) 
 });
