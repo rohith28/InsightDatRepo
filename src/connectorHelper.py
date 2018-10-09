@@ -2,10 +2,9 @@ import psycopg2
 import os
 
 class connectorHelper:
-    def __init__(self, psql=True):
+    def __init__(self):
         self.conn = None
         # Connect to Redshift
-
         host_red = os.environ["REDSHIFT_HOST"]
         dbname_redshift = os.environ["database_name"]
         user_redshift = os.environ["redshift_user"]
