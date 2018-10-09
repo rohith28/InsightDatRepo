@@ -99,13 +99,14 @@ class tableCreator():
             curObj.execute(crewMovieQuery)
             
 
-            # Crew table and  crew movie relational table
+            # Production details
             prodQuery = """ CREATE TABLE production(pId INT PRIMARY KEY,
                     pName text
             )
             """
             curObj.execute(prodQuery)
             
+            # Production and Movies relational table
             prodMovieQuery = """CREATE TABLE prod_movie(
                 pId INT REFERENCES production(pId),
                 movie_id INT REFERENCES movies(movie_id)

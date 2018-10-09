@@ -31,7 +31,7 @@ class MovieParser:
         
     def ingestMoviesData(self,datapath):
 
-        sqlContext = SQLContext(self.spark)
+            
 
         # Read csv file form S3 which contains raw movie information
         movieInfoDF = sqlContext.read.format('com.databricks.spark.csv')\
