@@ -1,13 +1,13 @@
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
 from os import environ
-from connectorHelper import connectorHelper
+from ConnectorHelper import ConnectorHelper
 import databaseConnector
 import datetime
 
 
 
-class jsonParser:
+class JsonParser:
     
     def __init__(self):
         self.foldername = os.environ["BUCKET_NAME"]
@@ -18,10 +18,10 @@ class jsonParser:
             .appName("meta_info_processor") \
             .getOrCreate()
     
-    def stopSpark(self):
+    def stop_spark(self):
         self.spark.stop()
     
-    def genresParsing(self,sqlContext):
+    def genres_parsing(self,sqlContext):
         todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
         year,month,day = todayDate.split('-')
         filename = 'genresMovie' + ''.join((year, month, day)) + '.json'
@@ -42,7 +42,7 @@ class jsonParser:
                                                 tmpdir='tmp', savemode='append')
     
     
-    def actorsParsing(self,sqlContext):
+    def actors_parsing(self,sqlContext):
         todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
         year,month,day = todayDate.split('-')
         filename = 'castMovie' + ''.join((year, month, day)) + '.json'
@@ -65,7 +65,7 @@ class jsonParser:
                                                 tmpdir='tmp', savemode='append')
 
     
-    def crewParsing(self,sqlContext):
+    def crew_parsing(self,sqlContext):
         todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
         year,month,day = todayDate.split('-')
         filename = 'crewMovie' + ''.join((year, month, day)) + '.json'
@@ -90,7 +90,7 @@ class jsonParser:
 
 
 
-        def productionParsing(self,sqlContext):
+        def production_parsing(self,sqlContext):
             todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
             year,month,day = todayDate.split('-')
             filename = 'prodMovie' + ''.join((year, month, day)) + '.json'
@@ -113,15 +113,15 @@ class jsonParser:
 
     def main(self):
         sqlContext = SQLContext(self.spark)
-        genresParsing(sqlContext)
-        actorsParsing(sqlContext)
-        crewParsing(sqlContext)
-        productionParsing(sqlContext)
+        genres_parsing(sqlContext)
+        actors_parsing(sqlContext)
+        crew_parsing(sqlContext)
+        production_parsing(sqlContext)
         
 if __name__ == "__main__":
-    jsonInst = jsonParser()
+    jsonInst = JsonParser()
     main()
-    stopSpark()
+    stop_spark()
 
 
     
