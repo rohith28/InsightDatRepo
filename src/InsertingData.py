@@ -11,7 +11,7 @@ from io import StringIO
 import pymysql
 import time
 
-class dataProcessing():
+class InsertingData():
     # Initialize
     def __init__(self,clusterURL = "local",appName = "AUTH"):
         
@@ -57,7 +57,7 @@ class dataProcessing():
         df = pd.read_csv(StringIO(csv_string))
         return df
     
-    def dataIngestion(self,dataFrame,cursorObj):
+    def data_ingestion(self,dataFrame,cursorObj):
         
         print("Data ingestion started ")
         start_time = time.time()
@@ -97,14 +97,14 @@ class dataProcessing():
     
     
 if __name__ == "__main__":
+    `
     
-    
-    instance = dataProcessing()
+    instance = InsertingData()
     
     connection = instance.connect_database()
     cursor= instance.create_cursor(connection)
     csvData = instance.read_file()
-    instance.dataIngestion(csvData,cursor)
+    instance.data_ingestion(csvData,cursor)
     connection.commit()
     connection.close()
     print(type(csvData))
