@@ -1,4 +1,4 @@
-y  # !/usr/bin/env python3
+# !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Tue Sep 25 16:50:19 2018
@@ -11,7 +11,7 @@ import sys
 from connectorHelper import connectorHelper
 
 
-class tableCreator():
+class TableCreator():
 
     def create_cursor(conn):
         cur = conn.cursor()
@@ -127,6 +127,6 @@ class tableCreator():
 
 
 if __name__ == "__main__":
-    tbCreatorIns = tableCreator()
+    tbCreatorIns = TableCreator()
     tbCreatorIns.create_tables()
     
