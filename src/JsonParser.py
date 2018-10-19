@@ -74,8 +74,6 @@ class JsonParser:
         castData = castData.rdd.map(lambda r: r.movie).collect()[0]
         castData.registerTempTable("crewTb")
 
-        
-
         crewDF = sqlContext.sql("SELECT crew.id,crew.name,crew.gender FROM crewTb")
         uniqueCrewDet= sqlContext.createDataFrame(crewDF, ['crewId', 'crewName','gender']).collect()
 
@@ -83,8 +81,8 @@ class JsonParser:
         DatabaseConnector.redshift_saver(spark, uniqueCrewDet, tbname="crew", \
                                                 tmpdir='tmp', savemode='append')
         
-        actorMovieDF = sqlContext.sql("SELECT crew.id as crew_id,movie.id as movie_id, crew.job as dept FROM castTb")
-        DatabaseConnector.redshift_saver(spark, actorMovieDF, tbname="crew_movie", \
+        crewMovieDF = sqlContext.sql("SELECT crew.id as crew_id,movie.id as movie_id, crew.job as dept FROM crewTb")
+        DatabaseConnector.redshift_saver(spark, crewMovieDF, tbname="crew_movie", \
                                                 tmpdir='tmp', savemode='append')
         
 
