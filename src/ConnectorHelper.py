@@ -1,7 +1,7 @@
 import psycopg2
 import os
 
-class connectorHelper:
+class ConnectorHelper:
     def __init__(self):
         self.conn = None
         # Connect to Redshift
