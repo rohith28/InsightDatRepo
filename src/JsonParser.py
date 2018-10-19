@@ -117,6 +117,19 @@ class JsonParser:
         production_parsing(sqlContext)
         
 if __name__ == "__main__":
+
+    environ['PYSPARK_SUBMIT_ARGS'] = '--jars ./spark-redshift_2.10-3.0.0-preview1.jar \
+                            --jars ./spark/jars/spark-avro_2.11-4.0.0.jar \
+                            --jars ./spark/jars/RedshiftJDBC41-1.2.12.1017.jar pyspark-shell'
+
+    # Setup python path for worker nodes
+    environ['PYSPARK_PYTHON'] = '/home/ubuntu/anaconda3/bin/python'
+    environ['PYSPARK_DRIVER_PYTHON'] = '/home/ubuntu/anaconda3/bin/jupyter'
+
+
+    self.spark.sparkContext.addPyFile('/home/ubuntu/MOVIEINSIGHTS/src/ConnectorHelper.py')
+    self.spark.sparkContext.addPyFile('/home/ubuntu/MOVIEINSIGHTS/src/DatabaseConnector.py')
+
     jsonInst = JsonParser()
     main()
-    stop_spark()
+    jsonInst.stop_spark()

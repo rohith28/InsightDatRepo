@@ -66,8 +66,8 @@ if __name__ == "__main__":
     environ['PYSPARK_PYTHON'] = '/home/ubuntu/anaconda3/bin/python'
     environ['PYSPARK_DRIVER_PYTHON'] = '/home/ubuntu/anaconda3/bin/jupyter'
 
-    self.spark.sparkContext.addPyFile('/home/ubuntu/MOVIEINSIGHTS/src/connectorHelper.py')
-    self.spark.sparkContext.addPyFile('/home/ubuntu/MOVIEINSIGHTS/src/databaseConnector.py')
+    self.spark.sparkContext.addPyFile('/home/ubuntu/MOVIEINSIGHTS/src/ConnectorHelper.py')
+    self.spark.sparkContext.addPyFile('/home/ubuntu/MOVIEINSIGHTS/src/DatabaseConnector.py')
     
     todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
     year,month,day = todayDate.split('-')
