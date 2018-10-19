@@ -88,25 +88,25 @@ class JsonParser:
 
 
 
-        def production_parsing(self,sqlContext):
-            todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
-            year,month,day = todayDate.split('-')
-            filename = 'prodMovie' + ''.join((year, month, day)) + '.json'
-            path = 's3a://' + foldername + '/' + filename
-            prodData = self.spark.read.json(path)
-            prodData = castData.rdd.map(lambda r: r.movie).collect()[0]
-            prodData.registerTempTable("prodTb")
+    def production_parsing(self,sqlContext):
+        todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
+        year,month,day = todayDate.split('-')
+        filename = 'prodMovie' + ''.join((year, month, day)) + '.json'
+        path = 's3a://' + foldername + '/' + filename
+        prodData = self.spark.read.json(path)
+        prodData = castData.rdd.map(lambda r: r.movie).collect()[0]
+        prodData.registerTempTable("prodTb")
 
-            prodDF = sqlContext.sql("SELECT production.id as pId,production.name as pName FROM prodTb")
-            uniqueProd= sqlContext.createDataFrame(prodDF, ['pId', 'pName']).collect()
+        prodDF = sqlContext.sql("SELECT production.id as pId,production.name as pName FROM prodTb")
+        uniqueProd= sqlContext.createDataFrame(prodDF, ['pId', 'pName']).collect()
 
-            uniqueProd = uniqueProd.collect()
-            DatabaseConnector.redshift_saver(spark, uniqueProd, tbname="production", \
-                                                tmpdir='tmp', savemode='append')
-        
-            prodMovieDF = sqlContext.sql("SELECT production.id as pId,movie.id as movie_id FROM prodTb")
-            DatabaseConnector.redshift_saver(spark, prodMovieDF, tbname="prod_movie", \
-                                                tmpdir='tmp', savemode='append')
+        uniqueProd = uniqueProd.collect()
+        DatabaseConnector.redshift_saver(spark, uniqueProd, tbname="production", \
+                                            tmpdir='tmp', savemode='append')
+    
+        prodMovieDF = sqlContext.sql("SELECT production.id as pId,movie.id as movie_id FROM prodTb")
+        DatabaseConnector.redshift_saver(spark, prodMovieDF, tbname="prod_movie", \
+                                            tmpdir='tmp', savemode='append')
 
 
     def main(self):

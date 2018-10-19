@@ -9,7 +9,7 @@ from pyspark import SparkContext
 from pyspark.sql import SparkSession
 from os import environ
 from connectorHelper import connectorHelper
-import databaseConnector
+import DatabaseConnector
 import datetime
 
 
@@ -25,13 +25,11 @@ class MovieParser:
             .appName("meta_info_processor") \
             .getOrCreate()
     
-    def stopSpark(self):
+    def stop_spark(self):
         self.spark.stop()
 
         
-    def ingestMoviesData(self,datapath):
-
-            
+    def ingest_movies_data(self,datapath):
 
         # Read csv file form S3 which contains raw movie information
         movieInfoDF = sqlContext.read.format('com.databricks.spark.csv')\
@@ -50,7 +48,7 @@ class MovieParser:
         movieDetailsDF.createOrReplaceTempView("view")
         
 
-        databaseConnector.redshift_saver(spark, movieDetailsDF, tbname="movies", \
+        DatabaseConnector.redshift_saver(spark, movieDetailsDF, tbname="movies", \
                                                 tmpdir='tmp', savemode='append')
 
 if __name__ == "__main__":
@@ -75,7 +73,7 @@ if __name__ == "__main__":
     year,month,day = todayDate.split('-')
     filename = 'moviesInfo' + ''.join((year, month, day)) + '.csv'
     path = 's3a://moviedatasetinsight/' + foldername + '/' + filename
-    parsingInstance.ingestMoviesData(path)
-    parsingInstance.stopSpark()
+    parsingInstance.ingest_movies_data(path)
+    parsingInstance.stop_spark()
 
     
