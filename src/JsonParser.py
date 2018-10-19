@@ -2,7 +2,7 @@ from pyspark import SparkContext
 from pyspark.sql import SparkSession
 from os import environ
 from ConnectorHelper import ConnectorHelper
-from DatabaseConnector import DatabaseConnector
+import DatabaseConnector
 import datetime
 
 
