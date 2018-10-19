@@ -2,7 +2,7 @@ from pyspark import SparkContext
 from pyspark.sql import SparkSession
 from os import environ
 from ConnectorHelper import ConnectorHelper
-import databaseConnector
+from DatabaseConnector import DatabaseConnector
 import datetime
 
 
@@ -34,11 +34,11 @@ class JsonParser:
         uniqueGenres= sqlContext.createDataFrame(genresDF, ['genres_id', 'genres_name']).collect()
 
         uniqueGenres = uniqueGenres.collect()
-        databaseConnector.redshift_saver(spark, uniqueGenres, tbname="genres", \
+        DatabaseConnector.redshift_saver(spark, uniqueGenres, tbname="genres", \
                                                 tmpdir='tmp', savemode='append')
         
         genresMovieDF = sqlContext.sql("SELECT genres.id as genres_id,movie.id as movie_id FROM genreTb")
-        databaseConnector.redshift_saver(spark, genresMovieDF, tbname="genres_movie", \
+        DatabaseConnector.redshift_saver(spark, genresMovieDF, tbname="genres_movie", \
                                                 tmpdir='tmp', savemode='append')
     
     
@@ -57,11 +57,11 @@ class JsonParser:
         uniqueActorDet= sqlContext.createDataFrame(actorsDF, ['actorId', 'actorName','gender']).collect()
 
         uniqueActorDet = uniqueActorDet.collect()
-        databaseConnector.redshift_saver(spark, uniqueActorDet, tbname="actors", \
+        DatabaseConnector.redshift_saver(spark, uniqueActorDet, tbname="actors", \
                                                 tmpdir='tmp', savemode='append')
         
         actorMovieDF = sqlContext.sql("SELECT actor.id as actor_id,movie.id as movie_id, actor.character as characterName FROM castTb")
-        databaseConnector.redshift_saver(spark, actorMovieDF, tbname="actor_movie", \
+        DatabaseConnector.redshift_saver(spark, actorMovieDF, tbname="actor_movie", \
                                                 tmpdir='tmp', savemode='append')
 
     
@@ -80,11 +80,11 @@ class JsonParser:
         uniqueCrewDet= sqlContext.createDataFrame(crewDF, ['crewId', 'crewName','gender']).collect()
 
         uniqueCrewDet = uniqueCrewDet.collect()
-        databaseConnector.redshift_saver(spark, uniqueCrewDet, tbname="crew", \
+        DatabaseConnector.redshift_saver(spark, uniqueCrewDet, tbname="crew", \
                                                 tmpdir='tmp', savemode='append')
         
         actorMovieDF = sqlContext.sql("SELECT crew.id as crew_id,movie.id as movie_id, crew.job as dept FROM castTb")
-        databaseConnector.redshift_saver(spark, actorMovieDF, tbname="crew_movie", \
+        DatabaseConnector.redshift_saver(spark, actorMovieDF, tbname="crew_movie", \
                                                 tmpdir='tmp', savemode='append')
         
 
@@ -103,11 +103,11 @@ class JsonParser:
             uniqueProd= sqlContext.createDataFrame(prodDF, ['pId', 'pName']).collect()
 
             uniqueProd = uniqueProd.collect()
-            databaseConnector.redshift_saver(spark, uniqueProd, tbname="production", \
+            DatabaseConnector.redshift_saver(spark, uniqueProd, tbname="production", \
                                                 tmpdir='tmp', savemode='append')
         
             prodMovieDF = sqlContext.sql("SELECT production.id as pId,movie.id as movie_id FROM prodTb")
-            databaseConnector.redshift_saver(spark, prodMovieDF, tbname="prod_movie", \
+            DatabaseConnector.redshift_saver(spark, prodMovieDF, tbname="prod_movie", \
                                                 tmpdir='tmp', savemode='append')
 
 
@@ -122,6 +122,3 @@ if __name__ == "__main__":
     jsonInst = JsonParser()
     main()
     stop_spark()
-
-
-    
