@@ -15,9 +15,9 @@ default_args = {
     'email': ['rohithuppala28@gmail.com'],
     'email_on_failure': False,
     'email_on_retry': False,
-    'schedule_interval': '@daily',
+    'schedule_interval': '@weekly',
     'retries': 2,
-    'retry_delay': timedelta(minutes=1),
+    'retry_delay': timedelta(minutes=5),
 }
 
 dag = DAG(
